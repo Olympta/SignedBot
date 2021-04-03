@@ -1,0 +1,29 @@
+{
+  "name": "signedbot",
+  "version": "1.0.0",
+  "description": "A simple bot that checks if Jailbreaks.app is signed.",
+  "main": "./src/index.js",
+  "scripts": {
+    "dev": "cd src; node ./index.js",
+    "start": "cd src; node ./start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JailbreaksApp/SignedBot.git"
+  },
+  "author": "Jailbreaks.app Team",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/JailbreaksApp/SignedBot/issues"
+  },
+  "homepage": "https://github.com/JailbreaksApp/SignedBot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "forever-monitor": "^3.0.3",
+    "hastebin-gen": "^2.0.5",
+    "node-fetch": "^2.6.1",
+    "quick.db": "^7.1.3",
+    "systeminformation": "^5.6.2",
+    "timezone": "^1.0.23"
+  }
+}

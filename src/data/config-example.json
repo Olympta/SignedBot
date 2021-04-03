@@ -1,0 +1,12 @@
+{
+	"token": "token here",
+    "devs": ["dev 1", "dev 2"],
+    "version": "1.0.0",
+    "changelog": "Some Changelog",
+    "globalPrefix": "sb!",
+    "logname": "SB",
+    "logchannel": ["log guild", "log channel"],
+    "reportchannel": ["bug report guild", "bug report channel"],
+    "supportInvite": "support server invite (if needed) here",
+    "botInvite": "bot invite (if needed) here"
+}
