@@ -16,7 +16,7 @@ client.once("ready", () => {
         else client.user.setActivity("sb!help | Revoked", { type: "WATCHING" });
     });
     setInterval(function() {
-        exec("cd ../; git add .; git commit -m \"Update Database\"; git pull; git push; cd ./src;", function(err, data) {});
+        exec("cd ./json.sqlite; git add .; git commit -m \"Update Database\"; git pull; git push; cd ./src;", function(err, data) {});
         fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => {
             if (body.status == "Signed") client.user.setActivity(config.globalPrefix + `help | Signed`, { type: "WATCHING" });
             else client.user.setActivity(`${config.globalPrefix}help | Revoked`, { type: "WATCHING" });
