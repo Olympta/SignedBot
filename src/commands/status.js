@@ -15,11 +15,9 @@ module.exports = {
                 if (body.status == "Signed") {
                     embed.addFields({name: "Status", value: "Signed!"}).setColor("#00b300");
                     message.inlineReply(embed);
-                    console.log("Status: Signed\nBot status updated.\n");
                 } else if (body.status == "Revoked") {
                     embed.addFields({name: "Status", value: "Revoked"}).setColor("#b30000");
                     message.inlineReply(embed);
-                    console.log("Status: Revoked\nBot status updated.\n");
                 } else if (!body) {
                     embed.addFields({name: "Status", value: "Could not get status..."}).setColor("#b30000");
                     message.inlineReply(embed);

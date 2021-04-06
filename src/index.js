@@ -10,10 +10,9 @@ if (!config.logchannel) return console.error(`[${config.logname}] You did not pr
 
 client.once("ready", () => {
     client.guilds.cache.get(config.logchannel[0]).channels.cache.get(config.logchannel[1]).send("Bot is online at " + new Date().toUTCString() + ". (EST: " + new Date().toLocaleTimeString() + ")\nServing " + client.guilds.cache.size + " servers.")
-    console.log(`[${config.logname}] Logging in as ${client.user.tag} at ${new Date().toLocaleTimeString()}\n[${config.logname}] Prefix: ${config.globalPrefix}`);
-    console.log(`[${config.logname}] Serving ${client.guilds.cache.size} servers.`);
-    fetch("https://jailbreaks.app/status.txt").then(res => res.text()).then(body => { 
-        if (body == "✅ Signed! https://jailbreaks.app\n") client.user.setActivity(config.globalPrefix + `help | Signed`, { type: "WATCHING" });
+    console.log(`[${config.logname}] Logging in as ${client.user.tag} at ${new Date().toLocaleTimeString()}\n[${config.logname}] Global Prefix: ${config.globalPrefix}\n[${config.logname}] Serving ${client.guilds.cache.size} servers.`);
+    fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => { 
+        if (body.status == "✅ Signed! https://jailbreaks.app\n") client.user.setActivity(config.globalPrefix + `help | Signed`, { type: "WATCHING" });
         else client.user.setActivity("sb!help | Revoked", { type: "WATCHING" });
     });
     setInterval(function() {
@@ -25,12 +24,12 @@ client.once("ready", () => {
 
             let dmlist = db.get("dmlist.ids");
             let listofids = Array.from(dmlist.toString().split(" "));
-            listofids.toString().split(",").forEach(function (id) {
+                listofids.toString().split(",").forEach(function (id) {
                 if (id != "Bruh") {
                     var filePath = path.join(__dirname, 'status/status.txt');
                     fs.readFile(filePath, {encoding: 'utf-8'}, function(err, data) {
                         if (!err) {
-                            if (data == body) { return; } else {
+                            if (data == body.status) { return; } else {
                                 var newValue;
                                 if (body.status == "Signed") { newValue = data.replace("Revoked", "Signed"); }
                                 else { newValue = data.replace("Signed", "Revoked") }
@@ -113,4 +112,5 @@ client.on("message", (message, guild) => {
     }
 });
 
-client.login(config.token);
+//client.login(config.token);
+client.login("ODI5MDY2MTI2NDYxMTA4MjI1.YGyt_w.nKHIS5qPpLvzSrPxzPrxjVGokKQ")
