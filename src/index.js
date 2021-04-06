@@ -113,4 +113,3 @@ client.on("message", (message, guild) => {
 });
 
 //client.login(config.token);
-client.login("ODI5MDY2MTI2NDYxMTA4MjI1.YGyt_w.nKHIS5qPpLvzSrPxzPrxjVGokKQ")
