@@ -12,7 +12,7 @@ client.once("ready", () => {
     client.guilds.cache.get(config.logchannel[0]).channels.cache.get(config.logchannel[1]).send("Bot is online at " + new Date().toUTCString() + ". (EST: " + new Date().toLocaleTimeString() + ")\nServing " + client.guilds.cache.size + " servers.")
     console.log(`[${config.logname}] Logging in as ${client.user.tag} at ${new Date().toLocaleTimeString()}\n[${config.logname}] Global Prefix: ${config.globalPrefix}\n[${config.logname}] Serving ${client.guilds.cache.size} servers.`);
     fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => { 
-        if (body.status == "✅ Signed! https://jailbreaks.app\n") client.user.setActivity(config.globalPrefix + `help | Signed`, { type: "WATCHING" });
+        if (body.status == "Signed") client.user.setActivity(config.globalPrefix + `help | Signed`, { type: "WATCHING" });
         else client.user.setActivity("sb!help | Revoked", { type: "WATCHING" });
     });
     setInterval(function() {
