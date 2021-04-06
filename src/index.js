@@ -112,4 +112,4 @@ client.on("message", (message, guild) => {
     }
 });
 
-//client.login(config.token);
+client.login(config.token);
