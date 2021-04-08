@@ -40,7 +40,7 @@ client.once("ready", () => {
                             else msgToSend = "Jailbreaks.app has been revoked. :(";
                             client.users.fetch(id).then(user => {
                                 user.send(msgToSend).catch(e => {
-                                    return
+                                    return;
                                 })
                             }).catch(e => {
                                 return;
