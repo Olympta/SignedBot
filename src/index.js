@@ -39,7 +39,9 @@ client.once("ready", () => {
                             if (body.status == "Signed") msgToSend = "Jailbreaks.app is now signed!\nhttps://jailbreaks.app";
                             else msgToSend = "Jailbreaks.app has been revoked. :(";
                             client.users.fetch(id).then(user => {
-                                user.send(msgToSend)
+                                user.send(msgToSend).catch(e => {
+                                    return
+                                })
                             }).catch(e => {
                                 return;
                             })
