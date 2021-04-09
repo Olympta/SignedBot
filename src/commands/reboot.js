@@ -5,7 +5,7 @@ module.exports = {
     description: "Reboot Command",
     execute(client, message, config) {
         try {
-            if (!client.devs.includes(message.author.id)) return;
+            if (!config.devs.includes(message.author.id)) return;
             message.channel.send("Rebooting...")
             process.exit()
         } catch (e) {
