@@ -65,12 +65,14 @@ client.on("message", (message, guild) => {
             case "prefix":
                 commands.get("prefix").execute(client, message, config, msgFiltered);
                 break;
+            /*
             case "suggest":
                 commands.get("suggest").execute(client, message, config, msgFiltered);
                 break;
             case "reportbug":
                 commands.get("reportbug").execute(client, message, config, msgFiltered);
                 break;
+            */
             case "optin":
                 commands.get("optin").execute(client, message, config);
                 break;
