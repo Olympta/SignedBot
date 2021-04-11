@@ -1,10 +1,10 @@
 var forever = require('forever-monitor');
 var child = new (forever.Monitor)('./index.js', {
     max: 999,
-    silent: true,
+    silent: false,
     args: []
 });
 child.on('exit', function () {
-    console.log('index.js has exited after 99 restarts');
+    console.log('index.js has exited after 999 restarts');
 });
 child.start();
