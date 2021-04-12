@@ -61,50 +61,11 @@ client.on("message", (message, guild) => {
     if (message.content.startsWith(db.get(`prefix-${message.guild.id}`)) || message.content.startsWith("<@" + client.user.id + ">") || message.content.startsWith("<@!" + client.user.id + ">")) {
         let msgFiltered = message.content.toLowerCase().replace(db.get(`prefix-${message.guild.id}`), "").replace("<@" + client.user.id + "> ", "").replace("<@" + client.user.id + ">" , "").replace("<@!" + client.user.id + "> ", "").replace("<@!" + client.user.id + ">" , "");
         let mentionFiltered = message.content.replace("<@" + client.user.id + "> ", "").replace("<@" + client.user.id + ">" , "").replace("<@!" + client.user.id + "> ", "").replace("<@!" + client.user.id + ">" , "");
-        switch (msgFiltered.split(" ")[0]) {
-            case "prefix":
-                commands.get("prefix").execute(client, message, config, msgFiltered);
-                break;
-            case "suggest":
-                commands.get("suggest").execute(client, message, config, msgFiltered);
-                break;
-            case "reportbug":
-                commands.get("reportbug").execute(client, message, config, msgFiltered);
-                break;
-            case "optin":
-                commands.get("optin").execute(client, message, config);
-                break;
-            case "optout":
-                commands.get("optout").execute(client, message, config);
-                break;
-            case "serverlist":
-                commands.get("serverlist").execute(client, message, config);
-                break;
-            case "stats":
-                commands.get("stats").execute(client, message, config);
-                break;
-            case "help":
-                commands.get("help").execute(client, message, config);
-                break;
-            case "status":
-                commands.get("status").execute(client, message, config);
-                break;
-            case "inv":
-                commands.get("invite").execute(client, message, config);
-                break;
-            case "invite":
-                commands.get("invite").execute(client, message, config);
-                break;
-            case "support":
-                commands.get("support").execute(client, message, config);
-                break;
-            case "changelog":
-                commands.get("changelog").execute(client, message, config);
-                break;
-            case "reboot":
-                commands.get("reboot").execute(client, message, config);
-                break;
-        }
+        commands.forEach(command => {
+            if (msgFiltered.split(" ")[0] == command.name) {
+                commands.get(command.name).execute(client, message, config);
+            }
+        })
         switch (mentionFiltered.split(" ")[0]) {
             case "":
                 message.inlineReply(`Hi! I'm SignedBot.\nMy prefix on this guild is \`\`${db.get(`prefix-${message.guild.id}`)}\`\`\nYou can also ask me for help by mentioning me, like this: \`\`@SignedBot help\`\``)
