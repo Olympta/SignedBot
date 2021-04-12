@@ -56,6 +56,7 @@ client.once("ready", () => {
 });
 
 client.on("message", (message, guild) => {
+    if (!message.channel.type === 'text') return;
     if (message.author.bot) return;
     if (!db.get(`prefix-${message.guild.id}`)) db.set(`prefix-${message.guild.id}`, config.globalPrefix);
     if (message.content.startsWith(db.get(`prefix-${message.guild.id}`)) || message.content.startsWith("<@" + client.user.id + ">") || message.content.startsWith("<@!" + client.user.id + ">")) {
