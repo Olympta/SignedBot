@@ -4,6 +4,7 @@ module.exports = {
     name: "suggest",
     description: "Suggest Command",
     execute(client, message, config, msgFiltered) {
+        return;
         try {
             if (!config.reportchannel) return;
             if (msgFiltered.replace("suggest", "") == "") return message.inlineReply("You did not provide a suggestion!");

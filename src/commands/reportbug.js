@@ -4,6 +4,7 @@ module.exports = {
     name: "reportbug",
     description: "Report Bug Command",
     execute(client, message, config, msgFiltered) {
+        return;
         try {
             if (!config.reportchannel)
             if (msgFiltered.replace("reportbug", "") == "") return message.inlineReply("You did not provide a bug to report!");
