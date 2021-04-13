@@ -15,16 +15,18 @@ client.once("ready", () => {
         if (body.status == "Signed") {
             client.user.setStatus("online");
             client.user.setPresence({
+                status: "online",
                 activity: {
-                    name: `${config.globalPrefix}!help | Signed`,
+                    name: `${config.globalPrefix}help | Signed`,
                     type: "WATCHING"
                 }
             });
         } else {
             client.user.setStatus("dnd");
             client.user.setPresence({
+                status: "dnd",
                 activity: {
-                    name: `${config.globalPrefix}!help | Revoked`,
+                    name: `${config.globalPrefix}help | Revoked`,
                     type: "WATCHING"
                 }
             });
@@ -36,16 +38,18 @@ client.once("ready", () => {
             if (body.status == "Signed") {
                 client.user.setStatus("online");
                 client.user.setPresence({
+                    status: "online",
                     activity: {
-                        name: `${config.globalPrefix}!help | Signed`,
+                        name: `${config.globalPrefix}help | Signed`,
                         type: "WATCHING"
                     }
                 });
             } else {
                 client.user.setStatus("dnd");
                 client.user.setPresence({
+                    status: "dnd",
                     activity: {
-                        name: `${config.globalPrefix}!help | Revoked`,
+                        name: `${config.globalPrefix}help | Revoked`,
                         type: "WATCHING"
                     }
                 });
