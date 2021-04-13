@@ -4,7 +4,7 @@ const fetch = require("node-fetch");
 module.exports = {
     name: "status",
     description: "Status Command",
-    execute(client, message, config) {
+    execute(client, message, config, msgFiltered) {
         try {
             fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => { 
                 console.log(body.status)

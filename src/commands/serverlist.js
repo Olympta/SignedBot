@@ -4,7 +4,7 @@ const hastebin = require("hastebin-gen");
 module.exports = {
     name: "serverlist",
     description: "Server List Command",
-    async execute(client, message, config) {
+    async execute(client, message, config, msgFiltered) {
         try {
             if (!config.devs) return;
             if (!config.devs.includes(message.author.id)) return;

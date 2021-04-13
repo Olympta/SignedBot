@@ -4,7 +4,7 @@ const db = require("quick.db");
 module.exports = {
     name: "help",
     description: "Help Command",
-    execute(client, message, config) {
+    execute(client, message, config, msgFiltered) {
         try {
             let embed = new Discord.MessageEmbed()
                 .setAuthor("SignedBot Commands", "https://jailbreaks.app/img/Jailbreaks.png")

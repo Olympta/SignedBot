@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 module.exports = {
     name: "support",
     description: "Support Command",
-    execute(client, message, config) {
+    execute(client, message, config, msgFiltered) {
         try {
             if (!config.supportInvite) return;
             let embed = new Discord.MessageEmbed()

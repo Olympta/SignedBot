@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 module.exports = {
     name: "reboot",
     description: "Reboot Command",
-    async execute(client, message, config) {
+    async execute(client, message, config, msgFiltered) {
         try {
             if (!config.devs.includes(message.author.id)) return;
             await message.channel.send("Rebooting...");
