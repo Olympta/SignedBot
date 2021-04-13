@@ -4,7 +4,7 @@ const db = require("quick.db");
 module.exports = {
     name: "optin",
     description: "Opt In Command",
-    execute(client, message, config) {
+    execute(client, message, config, msgFiltered) {
         try {
             if (!db.get("dmlist.ids").includes(message.member.id)) {
                 db.push("dmlist.ids", message.member.id);

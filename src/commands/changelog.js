@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 module.exports = {
     name: "changelog",
     description: "Changelog Command",
-    execute(client, message, config) {
+    execute(client, message, config, msgFiltered) {
         try {
             let embed = new Discord.MessageEmbed()
                 .setAuthor("SignedBot Changelog for version " + config.version, "https://jailbreaks.app/img/Jailbreaks.png")

@@ -4,7 +4,7 @@ const db = require("quick.db");
 module.exports = {
     name: "optout",
     description: "Opt Out Command",
-    execute(client, message, config) {
+    execute(client, message, config, msgFiltered) {
         try {
             if (db.get("dmlist.ids").includes(message.member.id)) {
                 let arr = db.get("dmlist.ids");

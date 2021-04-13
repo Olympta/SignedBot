@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 module.exports = {
     name: "invite",
     description: "Invite Command",
-    execute(client, message, config) {
+    execute(client, message, config, msgFiltered) {
         try {
             if (!config.botInvite) return;
             let embed = new Discord.MessageEmbed()

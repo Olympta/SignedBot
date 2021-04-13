@@ -4,7 +4,7 @@ const systeminformation = require("systeminformation");
 module.exports = {
     name: "stats",
     description: "Stats Command",
-    execute(client, message, config) {
+    execute(client, message, config, msgFiltered) {
         try {
             let totalSeconds = (client.uptime / 1000);
             let days = Math.floor(totalSeconds / 86400);
