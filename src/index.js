@@ -12,15 +12,45 @@ client.once("ready", () => {
     client.guilds.cache.get(config.logchannel[0]).channels.cache.get(config.logchannel[1]).send("Bot is online at " + new Date().toUTCString() + ". (EST: " + new Date().toLocaleTimeString() + ")\nServing " + client.guilds.cache.size + " servers.")
     console.log(`[${config.logname}] Logging in as ${client.user.tag} at ${new Date().toLocaleTimeString()}\n[${config.logname}] Global Prefix: ${config.globalPrefix}\n[${config.logname}] Serving ${client.guilds.cache.size} servers.`);
     fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => { 
-        if (body.status == "Signed") client.user.setActivity(config.globalPrefix + `help | Signed`, { type: "WATCHING" });
-        else client.user.setActivity("sb!help | Revoked", { type: "WATCHING" });
+        if (body.status == "Signed") {
+            client.user.setStatus("online");
+            client.user.setPresence({
+                activity: {
+                    name: `${config.globalPrefix}!help | Signed`,
+                    type: "WATCHING"
+                }
+            });
+        } else {
+            client.user.setStatus("dnd");
+            client.user.setPresence({
+                activity: {
+                    name: `${config.globalPrefix}!help | Revoked`,
+                    type: "WATCHING"
+                }
+            });
+        }
     });
     setInterval(function() {
         exec("git add ./status/status.txt; git commit -m \"Update Database\"; git pull; git push; cd ./src;", function(err, data) {});
         fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => {
-            if (body.status == "Signed") client.user.setActivity(config.globalPrefix + `help | Signed`, { type: "WATCHING" });
-            else client.user.setActivity(`${config.globalPrefix}help | Revoked`, { type: "WATCHING" });
-            client.guilds.cache.get(config.logchannel[0]).channels.cache.get(config.logchannel[1]).send("Update: Bot status changed at " + new Date().toUTCString() + ". (EST: " + new Date().toLocaleTimeString() + ")\nServing " + client.guilds.cache.size + " servers.");
+            if (body.status == "Signed") {
+                client.user.setStatus("online");
+                client.user.setPresence({
+                    activity: {
+                        name: `${config.globalPrefix}!help | Signed`,
+                        type: "WATCHING"
+                    }
+                });
+            } else {
+                client.user.setStatus("dnd");
+                client.user.setPresence({
+                    activity: {
+                        name: `${config.globalPrefix}!help | Revoked`,
+                        type: "WATCHING"
+                    }
+                });
+            }
+            client.guilds.cache.get(config.logchannel[0]).channels.cache.get(config.logchannel[1]).send("Update: Checking in at " + new Date().toUTCString() + ". (EST: " + new Date().toLocaleTimeString() + ")\nCurrently Serving " + client.guilds.cache.size + " servers.");
 
             let dmlist = db.get("dmlist.ids");
             let listofids = Array.from(dmlist.toString().split(" "));
@@ -78,6 +108,15 @@ client.on("message", (message, guild) => {
     } else {
         return;
     }
+});
+
+// Logout Logs
+process.stdin.resume();
+
+process.on('SIGINT', async function () {
+    await console.log(`[${config.logname}] Logging out of ${client.user.tag} at ${new Date().toUTCString()}. (EST: ${new Date().toLocaleTimeString()})`);
+    await client.guilds.cache.get(config.logchannel[0]).channels.cache.get(config.logchannel[1]).send(`Bot is going down at ${new Date().toUTCString()}. (EST: ${new Date().toLocaleTimeString()})`)
+    process.exit()
 });
 
 client.login(config.token);
