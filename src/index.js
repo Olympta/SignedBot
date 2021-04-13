@@ -98,7 +98,7 @@ client.on("message", (message, guild) => {
         let mentionFiltered = message.content.replace("<@" + client.user.id + "> ", "").replace("<@" + client.user.id + ">" , "").replace("<@!" + client.user.id + "> ", "").replace("<@!" + client.user.id + ">" , "");
         commands.forEach(command => {
             if (msgFiltered.split(" ")[0] == command.name) {
-                commands.get(command.name).execute(client, message, config);
+                commands.get(command.name).execute(client, message, config, msgFiltered);
             }
         })
         switch (mentionFiltered.split(" ")[0]) {
