@@ -1,16 +1,16 @@
-const Discord = require("discord.js");
-
 module.exports = {
-    name: "reboot",
-    description: "Reboot Command",
-    async execute(client, message, config, msgFiltered) {
+    name: 'reboot',
+    aliases: [],
+    description: 'Reboot the bot.',
+    requiredPerm: "DEV",
+    disabled: false,
+    async launch(msg, bot) {
         try {
-            if (!config.devs.includes(message.author.id)) return;
-            await message.channel.send("Rebooting...");
+            await msg.channel.createMessage("Rebooting...");
             process.exit();
         } catch (e) {
-            console.log(e)
-            client.guilds.cache.get(config.logchannel[0]).channels.cache.get(config.logchannel[1]).send("ERROR with ``" + module.exports.name + "``\n```" + e + "```")
+            console.log(e);
+            bot.guilds.get(bot.foundation.config.logchannel[0]).channels.get(bot.foundation.config.logchannel[1]).createMessage("ERROR with ``" + module.exports.name + "``\n```" + e + "```");
         }
     }
 }

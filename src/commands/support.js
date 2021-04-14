@@ -1,21 +1,29 @@
-const Discord = require("discord.js");
-
 module.exports = {
-    name: "support",
-    description: "Support Command",
-    execute(client, message, config, msgFiltered) {
+    name: 'support',
+    aliases: [],
+    description: 'Get this bot\'s support server invite.',
+    requiredPerm: "",
+    disabled: false,
+    async launch(msg, bot) {
         try {
-            if (!config.supportInvite) return;
-            let embed = new Discord.MessageEmbed()
-                .setAuthor("SignedBot Support Server Invite Link", "https://jailbreaks.app/img/Jailbreaks.png")
-                .setColor("#00b300")
-                .setURL("https://jailbreaks.app")
-                .addFields({name: "Invite link", value: config.supportInvite})
-                .setFooter("v" + config.version + " | Made by Monotrix & iCraze", "https://monotrix.xyz/assets/images/logo.png")
-            message.inlineReply(embed);
+            msg.channel.createMessage({
+                    embed: {
+                        title: `SignedBot Support Server Invite`,
+                        author: {
+                            name: "SignedBot",
+                            icon_url: "https://jailbreaks.app/img/Jailbreaks.png"
+                        },
+                        color: 0x00b300,
+                        url: `${bot.foundation.config.supportInvite}`,
+                        footer: {
+                            text: `SignedBot v${bot.foundation.config.version} | Created by Monotrix and iCraze`,
+                            icon_url: "https://monotrix.xyz/assets/images/logo.png"
+                        }
+                    }
+                });
         } catch (e) {
-            console.log(e)
-            client.guilds.cache.get(config.logchannel[0]).channels.cache.get(config.logchannel[1]).send("ERROR with ``" + module.exports.name + "``\n```" + e + "```")
+            console.log(e);
+            bot.guilds.get(bot.foundation.config.logchannel[0]).channels.get(bot.foundation.config.logchannel[1]).createMessage("ERROR with ``" + module.exports.name + "``\n```" + e + "```");
         }
     }
 }
