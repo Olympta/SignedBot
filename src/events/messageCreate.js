@@ -6,6 +6,10 @@ module.exports = async (client, msg) => {
     if (!db.get(`prefix-${msg.member.guild.id}`)) db.set(`prefix-${msg.member.guild.id}`, client.foundation.config.globalPrefix);
     if (msg.content.startsWith(db.get(`prefix-${msg.member.guild.id}`)) || msg.content.startsWith(`<@${client.user.id}>`) || msg.content.startsWith(`<@!${client.user.id}>`)) {} else { return; }
     let msgFiltered = msg.content.toLowerCase().replace(db.get(`prefix-${msg.member.guild.id}`), "").replace(`<@${client.user.id}> `, "").replace(`<@${client.user.id}>` , "").replace(`<@!${client.user.id}> `, "").replace(`<@!${client.user.id}>` , "");
+    let mentionFiltered = msg.content.replace(`<@${client.user.id}> `, "").replace(`<@${client.user.id}>` , "").replace(`<@!${client.user.id}> `, "").replace(`<@!${client.user.id}>` , "");
+    if (mentionFiltered == "" || mentionFiltered == " ") {
+        msg.channel.sendMessage(`Hi! I'm SignedBot.\nMy prefix on this guild is \`\`${db.get(`prefix-${msg.member.guild.id}`)}\`\`\nYou can also ask me for help by mentioning me, like this: \`\`@SignedBot help\`\``)
+    }
     let cmd = client.foundation.commands.get(msgFiltered.split(" ")[0])
     if (!cmd) {
         client.foundation.commands.forEach(command => {
