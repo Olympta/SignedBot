@@ -1,20 +1,34 @@
-const Discord = require("discord.js");
-
 module.exports = {
-    name: "changelog",
-    description: "Changelog Command",
-    execute(client, message, config, msgFiltered) {
+    name: 'changelog',
+    aliases: [],
+    description: 'Changelog for the current version of this bot.',
+    requiredPerm: "",
+    disabled: false,
+    async launch(msg, bot) {
         try {
-            let embed = new Discord.MessageEmbed()
-                .setAuthor("SignedBot Changelog for version " + config.version, "https://jailbreaks.app/img/Jailbreaks.png")
-                .setURL("https://jailbreaks.app")
-                .setFooter("v" + config.version + " | Made by Monotrix & iCraze", "https://monotrix.xyz/assets/images/logo.png")
-                .addFields({name: "Changelog", value: config.changelog})
-                .setColor("#00b300");
-            message.inlineReply(embed);
+            msg.channel.createMessage({
+                    embed: {
+                        title: `SignedBot Changelog for v${bot.foundation.config.version}`,
+                        author: {
+                            name: "SignedBot",
+                            icon_url: "https://jailbreaks.app/img/Jailbreaks.png"
+                        },
+                        fields: [
+                            {
+                                name: "Changelog",
+                                value: bot.foundation.config.changelog
+                            }
+                        ],
+                        color: 0x00b300,
+                        footer: {
+                            text: `SignedBot v${bot.foundation.config.version} | Created by Monotrix and iCraze`,
+                            icon_url: "https://monotrix.xyz/assets/images/logo.png"
+                        }
+                    }
+                });
         } catch (e) {
-            console.log(e)
-            client.guilds.cache.get(config.logchannel[0]).channels.cache.get(config.logchannel[1]).send("ERROR with ``" + module.exports.name + "``\n```" + e + "```")
+            console.log(e);
+            bot.guilds.get(bot.foundation.config.logchannel[0]).channels.get(bot.foundation.config.logchannel[1]).createMessage("ERROR with ``" + module.exports.name + "``\n```" + e + "```");
         }
     }
 }
