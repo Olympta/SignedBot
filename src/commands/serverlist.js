@@ -10,6 +10,7 @@ module.exports = {
         try {
             let serverList = "";
             bot.guilds.forEach((guild) => {
+                if (!guild.ownerID) return;
                 serverList += `NAME: ${guild.name} | ID: ${guild.id} | MEMBERS: ${guild.memberCount} | OWNER: ${guild.members.get(guild.ownerID).user.tag}\n`
             });
             hastebin(serverList, {extention: "txt", url: "https://paste.mod.gg"}).then(haste => {
