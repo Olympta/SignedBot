@@ -6,8 +6,9 @@ module.exports = {
     description: 'Gets this bot\'s statistics.',
     requiredPerm: "",
     disabled: false,
-    launch(msg, bot) {
+    async launch(msg, bot) {
         try {
+            await bot.sendChannelTyping(msg.channel.id);
             let totalSeconds = (bot.uptime / 1000);
             let days = Math.floor(totalSeconds / 86400);
             totalSeconds %= 86400;

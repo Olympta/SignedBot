@@ -2,3 +2,5 @@ node_modules/
 *.DS_Store
 src/data/config.json
 src/json.sqlite
+Dockerfile
+.dockerignore
