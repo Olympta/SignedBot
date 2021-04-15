@@ -6,8 +6,9 @@ module.exports = {
     description: 'Gets the status of Jailbreaks.app.',
     requiredPerm: "",
     disabled: false,
-    launch(msg, bot) {
+    async launch(msg, bot) {
         try {
+            await bot.sendChannelTyping(msg.channel.id);
             fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => {
                 let content;
                 let eColor;

@@ -35,10 +35,9 @@ module.exports = async (client) => {
                 });
             }
             client.guilds.get(client.foundation.config.logchannel[0]).channels.get(client.foundation.config.logchannel[1]).createMessage("Update: Checking in: " + new Date().toUTCString() + ". (EST: " + new Date().toLocaleTimeString() + ")\nCurrently Serving " + client.guilds.size + " servers.");
-
             let dmlist = db.get("dmlist.ids");
             let listofids = Array.from(dmlist.toString().split(" "));
-                listofids.toString().split(",").forEach(function (id) {
+            listofids.toString().split(",").forEach(function (id) {
                 if (id != "Bruh") {
                     var filePath = path.join(__dirname, '../status/status.txt');
                     fs.readFile(filePath, {encoding: 'utf-8'}, function(err, data) {
@@ -64,6 +63,16 @@ module.exports = async (client) => {
                         }
                     });
                 }
+            });
+            let channels = db.get("statuschannels.ids");
+            listofids = Array.from(channels.toString().split(" "));
+            listofids.toString().split(",").forEach(function (id) {
+                client.guilds.forEach((guild) => { 
+                    if (guild.channels.get(id) == undefined) return db.set("dmlist.ids", channels.filter(e => e !== id));
+                    guild.channels.get(id).edit({
+                        name: body.status
+                    })
+                })
             });
         })
     }, 300000);
