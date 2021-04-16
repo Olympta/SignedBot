@@ -1,6 +1,4 @@
-const Eris = require("eris");
-const Base = require('eris-sharder').Base;
-const config = require("../data/config.json");
+const Eris = require("eris");const config = require("../data/config.json");
 const bot = new Eris.Client(config.token, options = {
     restMode: true
 });
@@ -33,7 +31,6 @@ for (const ev of events) {
 
 module.exports = {
     Eris: Eris,
-    Base: Base,
     config: config,
     bot: bot,
     commands: commands,
