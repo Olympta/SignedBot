@@ -8,7 +8,7 @@ RUN mkdir -p /SignedBot
 COPY . /SignedBot
 
 # Run Prep Commands
-RUN cd /SignedBot && apk add --no-cache --virtual .gyp python3 make g++ && npm install -g yarn --force && yarn install && apk del .gyp
+RUN cd /SignedBot && apk add --no-cache --virtual .gyp python3 make g++ && npm install -g yarn --force && yarn install
 
 # Run Bot
 CMD cd /SignedBot && yarn start
