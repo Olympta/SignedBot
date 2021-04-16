@@ -11,4 +11,4 @@ COPY . /SignedBot
 RUN cd /SignedBot && apk add --no-cache --virtual .gyp python3 make g++ && npm install -g yarn --force && yarn install && apk del .gyp
 
 # Run Bot
-CMD cd /SignedBot && yarn start
+ENTRYPOINT [ "yarn", "run", "start" ]

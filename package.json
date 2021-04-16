@@ -2,10 +2,11 @@
   "name": "signedbot",
   "version": "1.0.0",
   "description": "A simple bot that checks if Jailbreaks.app is signed.",
-  "main": "./src/index.js",
+  "main": "./src/Index.js",
   "scripts": {
-    "dev": "cd src; node ./index.js",
-    "start": "cd src; node ./start.js"
+    "dev": "cd src; node ./Index.js",
+    "start": "cd src; node ./Start.js",
+    "test": "cd src; node ./Test.js"
   },
   "repository": {
     "type": "git",
@@ -18,9 +19,12 @@
   },
   "homepage": "https://github.com/JailbreaksApp/SignedBot#readme",
   "dependencies": {
+    "@assasans/eris-selfbot": "^0.14.0",
+    "chalk": "^4.1.0",
     "eris": "^0.15.0",
     "forever-monitor": "^3.0.3",
     "hastebin-gen": "^2.0.5",
+    "inquirer": "^8.0.0",
     "node-fetch": "^2.6.1",
     "quick.db": "^7.1.3",
     "systeminformation": "^5.6.12"
