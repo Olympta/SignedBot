@@ -1,4 +1,5 @@
 const systeminformation = require("systeminformation");
+const os = require("os");
 
 module.exports = {
     name: 'stats',
@@ -51,6 +52,14 @@ module.exports = {
                             {
                                 name: "Node Version",
                                 value: process.version
+                            },
+                            {
+                                name: "OS Type",
+                                value: os.type()
+                            },
+                            {
+                                name: "Host Arch",
+                                value: os.arch()
                             },
                             {
                                 name: "CPU", 
