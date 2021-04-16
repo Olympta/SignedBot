@@ -4,8 +4,11 @@ RUN mkdir -p /usr/bots/SignedBot
 WORKDIR /usr/bots/SignedBot
 
 COPY package.json /usr/bots/SignedBot
-RUN npm install
+COPY package-lock.json /usr/bots/SignedBot
+COPY yarn.lock /usr/bots/SignedBot
+RUN npm install -g yarn --force
+RUN yarn install
 
 COPY . /usr/bots/SignedBot
 
-CMD ["npm", "run", "start"]
+CMD ["yarn", "run", "start"]
