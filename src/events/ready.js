@@ -3,9 +3,10 @@ const db = require("quick.db");
 const { exec } = require("child_process");
 const path = require("path");
 const fs = require("fs");
+const chalk = require('chalk');
 
 module.exports = async (client) => {
-    console.log(`[${client.foundation.config.logname}] Logging in as \"${client.user.username}#${client.user.discriminator}\" at ${new Date().toLocaleTimeString()}\n[${client.foundation.config.logname}] Global Prefix: ${client.foundation.config.globalPrefix}\n[${client.foundation.config.logname}] Serving ${client.guilds.size} servers.`);
+    console.log(`${chalk.greenBright("==>")} Logging in as \"${client.user.username}#${client.user.discriminator}\" at ${new Date().toLocaleTimeString()}\n${chalk.greenBright("==>")} Global Prefix: ${client.foundation.config.globalPrefix}\n${chalk.greenBright("==>")} Serving ${client.guilds.size} servers.`);
     await client.guilds.get(client.foundation.config.logchannel[0]).channels.get(client.foundation.config.logchannel[1]).createMessage(`Bot is going up at ${new Date().toUTCString()}. (EST: ${new Date().toLocaleTimeString()}) | Serving ${client.guilds.size} servers.`);
     fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => {
         if (body.status == "Signed") {
