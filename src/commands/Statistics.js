@@ -54,7 +54,7 @@ module.exports = {
                             },
                             {
                                 name: "CPU", 
-                                value: cpu.manufacturer + " " + cpu.brand
+                                value: cpu.manufacturer + " " + cpu.brand 
                             }, 
                             {
                                 name: "Cores", 

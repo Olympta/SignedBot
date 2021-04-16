@@ -1,10 +1,14 @@
-FROM node:latest
+# Set up Node
+FROM node:15.14.0-alpine3.13
 
-RUN mkdir -p /usr/bots/SignedBot
-WORKDIR /usr/bots/SignedBot
+# Create Bot Directory
+RUN mkdir -p /SignedBot
 
-COPY . /usr/bots/SignedBot
-RUN npm install -g yarn --force
-RUN yarn install
+# Copy Files
+COPY . /SignedBot
 
-CMD ["yarn", "run", "start"]
+# Run Prep Commands
+RUN cd /SignedBot && apk add --no-cache --virtual .gyp python3 make g++ && npm install -g yarn --force && yarn install && apk del .gyp
+
+# Run Bot
+CMD cd /SignedBot && yarn start
