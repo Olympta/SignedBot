@@ -1,31 +1,51 @@
-const Discord = require("discord.js");
 const fetch = require("node-fetch");
 
 module.exports = {
-    name: "status",
-    description: "Status Command",
-    execute(client, message, config, msgFiltered) {
+    name: 'status',
+    aliases: [],
+    description: 'Gets the status of Jailbreaks.app.',
+    requiredPerm: "",
+    disabled: false,
+    async launch(msg, bot) {
         try {
-            fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => { 
-                console.log(body.status)
-                let embed = new Discord.MessageEmbed()
-                    .setAuthor("Jailbreaks.app Status", "https://jailbreaks.app/img/Jailbreaks.png")
-                    .setURL("https://jailbreaks.app")
-                    .setFooter("v" + config.version + " | Made by Monotrix & iCraze", "https://monotrix.xyz/assets/images/logo.png")
+            await bot.sendChannelTyping(msg.channel.id);
+            fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => {
+                let content;
+                let eColor;
                 if (body.status == "Signed") {
-                    embed.addFields({name: "Status", value: "Signed!"}).setColor("#00b300");
-                    message.inlineReply(embed);
+                    content = "Signed!";
+                    eColor = 0x00b300;
                 } else if (body.status == "Revoked") {
-                    embed.addFields({name: "Status", value: "Revoked"}).setColor("#b30000");
-                    message.inlineReply(embed);
+                    content = "Revoked.";
+                    eColor = 0xb30000;
                 } else if (!body) {
-                    embed.addFields({name: "Status", value: "Could not get status..."}).setColor("#b30000");
-                    message.inlineReply(embed);
+                    content = "Could not get status...";
+                    eColor = 0xb30000;
                 }
+                msg.channel.createMessage({
+                    embed: {
+                        title: "Jailbreaks.app Status",
+                        author: {
+                            name: "SignedBot",
+                            icon_url: "https://jailbreaks.app/img/Jailbreaks.png"
+                        },
+                        fields: [
+                            {
+                                name: "Status",
+                                value: content
+                            }
+                        ],
+                        color: eColor,
+                        footer: {
+                            text: `SignedBot v${bot.foundation.config.version} | Created by Monotrix and iCraze`,
+                            icon_url: "https://monotrix.xyz/assets/images/logo.png"
+                        }
+                    }
+                });
             });
         } catch (e) {
             console.log(e)
-            client.guilds.cache.get(config.logchannel[0]).channels.cache.get(config.logchannel[1]).send("ERROR with ``" + module.exports.name + "``\n```" + e + "```")
+            bot.guilds.get(bot.foundation.config.logchannel[0]).channels.get(bot.foundation.config.logchannel[1]).createMessage("ERROR with ``" + module.exports.name + "``\n```" + e + "```")
         }
     }
 }
