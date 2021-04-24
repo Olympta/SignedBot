@@ -10,6 +10,7 @@ Follow [this link](https://discord.com/api/oauth2/authorize?client_id=8127917084
 - Copy the token from the Discord developer panel
 - Paste it into config.json in src/data
 - Edit all info that is necessary (token, devs, logchannel (goes in "GUILD" then "CHANNEL" order))
-- Run `npm i` in the project root
-- Run `npm run dev`, make sure no errors are thrown
-- If everything works as expected, run `npm run start`
+- Run `npm install -g yarn --force`
+- Run `yarn install` in the project root
+- Run `yarn dev`, make sure no errors are thrown
+- If everything works as expected, run `yarn start`

@@ -1,126 +1,61 @@
-/*
- * SignedBot
- * Created by Monotrix and iCraze
-*/
+const chalk = require("chalk");
+const Base = require('eris-sharder').Base;
 
-const { Discord, fetch, config, db, fs, path, exec, client, commands, moment } = require("./util/Foundation")
-
-if (!config.token) return console.error(`[${config.logname}] You did not provide a token to log in with!`)
-if (!config.logchannel) return console.error(`[${config.logname}] You did not provide a guild and channel to log to!`)
-
-client.once("ready", () => {
-    client.guilds.cache.get(config.logchannel[0]).channels.cache.get(config.logchannel[1]).send("Bot is online at " + new Date().toUTCString() + ". (EST: " + new Date().toLocaleTimeString() + ")\nServing " + client.guilds.cache.size + " servers.")
-    console.log(`[${config.logname}] Logging in as ${client.user.tag} at ${new Date().toLocaleTimeString()}\n[${config.logname}] Global Prefix: ${config.globalPrefix}\n[${config.logname}] Serving ${client.guilds.cache.size} servers.`);
-    fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => { 
-        if (body.status == "Signed") {
-            client.user.setStatus("online");
-            client.user.setPresence({
-                status: "online",
-                activity: {
-                    name: `${config.globalPrefix}help | Signed`,
-                    type: "WATCHING"
-                }
-            });
-        } else {
-            client.user.setStatus("dnd");
-            client.user.setPresence({
-                status: "dnd",
-                activity: {
-                    name: `${config.globalPrefix}help | Revoked`,
-                    type: "WATCHING"
-                }
-            });
-        }
-    });
-    setInterval(function() {
-        exec("git add ./status/status.txt; git commit -m \"Update Database\"; git pull; git push; cd ./src;", function(err, data) {});
-        fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => {
-            if (body.status == "Signed") {
-                client.user.setStatus("online");
-                client.user.setPresence({
-                    status: "online",
-                    activity: {
-                        name: `${config.globalPrefix}help | Signed`,
-                        type: "WATCHING"
-                    }
-                });
-            } else {
-                client.user.setStatus("dnd");
-                client.user.setPresence({
-                    status: "dnd",
-                    activity: {
-                        name: `${config.globalPrefix}help | Revoked`,
-                        type: "WATCHING"
-                    }
-                });
-            }
-            client.guilds.cache.get(config.logchannel[0]).channels.cache.get(config.logchannel[1]).send("Update: Checking in at " + new Date().toUTCString() + ". (EST: " + new Date().toLocaleTimeString() + ")\nCurrently Serving " + client.guilds.cache.size + " servers.");
-
-            let dmlist = db.get("dmlist.ids");
-            let listofids = Array.from(dmlist.toString().split(" "));
-                listofids.toString().split(",").forEach(function (id) {
-                if (id != "Bruh") {
-                    var filePath = path.join(__dirname, 'status/status.txt');
-                    fs.readFile(filePath, {encoding: 'utf-8'}, function(err, data) {
-                        if (!err) {
-                            if (data == body.status) { return; } else {
-                                var newValue;
-                                if (body.status == "Signed") { newValue = data.replace("Revoked", "Signed"); }
-                                else { newValue = data.replace("Signed", "Revoked") }
-                                fs.writeFile(filePath, newValue, {encoding: "utf-8"}, function(err, data) {});
-                            }
-                            msgToSend = "";
-                            if (body.status == "Signed") msgToSend = "Jailbreaks.app is now signed!\nhttps://jailbreaks.app";
-                            else msgToSend = "Jailbreaks.app has been revoked. :(";
-                            client.users.fetch(id).then(user => {
-                                user.send(msgToSend).catch(e => {
-                                    return;
-                                })
-                            }).catch(e => {
-                                return;
-                            })
-                        } else {
-                            console.log(err);
-                        }
-                    });
-                }
-            });
-        })
-    }, 300000);
-});
-
-client.on("message", (message, guild) => {
-    if (!message.channel.type === 'text') return;
-    if (message.author.bot) return;
-    if (!db.get(`prefix-${message.guild.id}`)) db.set(`prefix-${message.guild.id}`, config.globalPrefix);
-    if (message.content.startsWith(db.get(`prefix-${message.guild.id}`)) || message.content.startsWith("<@" + client.user.id + ">") || message.content.startsWith("<@!" + client.user.id + ">")) {
-        let msgFiltered = message.content.toLowerCase().replace(db.get(`prefix-${message.guild.id}`), "").replace("<@" + client.user.id + "> ", "").replace("<@" + client.user.id + ">" , "").replace("<@!" + client.user.id + "> ", "").replace("<@!" + client.user.id + ">" , "");
-        let mentionFiltered = message.content.replace("<@" + client.user.id + "> ", "").replace("<@" + client.user.id + ">" , "").replace("<@!" + client.user.id + "> ", "").replace("<@!" + client.user.id + ">" , "");
-        commands.forEach(command => {
-            if (msgFiltered.split(" ")[0] == command.name) {
-                commands.get(command.name).execute(client, message, config, msgFiltered);
-            }
-        })
-        switch (mentionFiltered.split(" ")[0]) {
-            case "":
-                message.inlineReply(`Hi! I'm SignedBot.\nMy prefix on this guild is \`\`${db.get(`prefix-${message.guild.id}`)}\`\`\nYou can also ask me for help by mentioning me, like this: \`\`@SignedBot help\`\``)
-                break;
-            case " ":
-                message.inlineReply(`Hi! I'm SignedBot.\nMy prefix on this guild is \`\`${db.get(`prefix-${message.guild.id}`)}\`\`\nYou can also ask me for help by mentioning me, like this: \`\`@SignedBot help\`\``)
-                break;
-        }
-    } else {
-        return;
+module.exports = class extends Base {
+    constructor(bot) {
+        super(bot)
     }
-});
+    async launch() {
+        const Eris = require("eris");
+        const fs = require("fs");
+        const chalk = require("chalk");
+        const config = require("./data/config.json");
+        let commands = new Eris.Collection();
+        const commandFiles = fs.readdirSync("./commands/").filter(file => file.endsWith(".js"));
+        console.log(`${chalk.greenBright("==>")} Loading ${commandFiles.length} commands.`);
+        for (const file of commandFiles) {
+            try {
+                console.log(`${chalk.greenBright("==>")} Attempting to load \`command\` by the name of \`${file}\``);
+                const command = require(`./commands/${file}`);
+                commands.set(command.name, command);
+            } catch (e) {
+                console.log(`${chalk.redBright("==>")} Error loading load \`command\` by the name of \`${file}\`:\n${e}`);
+            }
+        }
+
+        const events = fs.readdirSync("./events/").filter(file => file.endsWith(".js"));
+        console.log(`${chalk.greenBright("==>")} Loading ${events.length} events.`);
+        for (const ev of events) {
+            try {
+                console.log(`${chalk.greenBright("==>")} Attempting to load \`event\` by the name of \`${ev}\``);
+                const event = require(`./events/${ev}`);
+                this.bot.on(ev.split('.')[0], event.bind(null, this.bot));
+            } catch (e) {
+                console.log(`${chalk.redBright("==>")} Error loading load \`event\` by the name of \`${ev}\`:\n${e}`);
+            }
+        }
+
+        module.exports = {
+            Eris: Eris,
+            config: config,
+            bot: this.bot,
+            commands: commands,
+            events: events
+        }
+
+        this.bot.foundation = module.exports;
+        this.bot.ipc = this.ipc;
+        this.bot.clusterID = this.clusterID;
+        this.bot.commands = commands;
+        this.bot.events = events;
+        require(`${__dirname}/events/ready`)(this.bot)
+    }
+}
 
 // Logout Logs
 process.stdin.resume();
 
 process.on('SIGINT', async function () {
-    await console.log(`[${config.logname}] Logging out of ${client.user.tag} at ${new Date().toUTCString()}. (EST: ${new Date().toLocaleTimeString()})`);
-    await client.guilds.cache.get(config.logchannel[0]).channels.cache.get(config.logchannel[1]).send(`Bot is going down at ${new Date().toUTCString()}. (EST: ${new Date().toLocaleTimeString()})`)
-    process.exit()
+    await console.log(`\n${chalk.yellowBright("==>")} Logging out of \"${Foundation.bot.user.username}#${Foundation.bot.user.discriminator}\" at ${new Date().toUTCString()}. (EST: ${new Date().toLocaleTimeString()})`);
+    process.exit();
 });
-
-client.login(config.token);
