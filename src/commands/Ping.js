@@ -3,11 +3,10 @@ module.exports = {
     aliases: ['pong'],
     description: 'Ping command.',
     requiredPerm: "",
-    disabled: true,
+    disabled: false,
     launch(msg, bot) {
         msg.channel.createMessage("Pinging...").then(async (m) => {
-            var start = new Date();
-            await m.edit(`Pong! Ping is ${start - new Date()} ms.`);
+            await m.edit(`Pong! Ping is ${new Date() - m.timestamp} ms.`);
         });
     }
 }
