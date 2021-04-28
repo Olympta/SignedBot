@@ -6,6 +6,7 @@ module.exports = {
     disabled: false,
     async launch(msg, bot) {
         try {
+            if (!bot.foundation.config.changelog) return;
             msg.channel.createMessage({
                     embed: {
                         title: `SignedBot Changelog for v${bot.foundation.config.version}`,

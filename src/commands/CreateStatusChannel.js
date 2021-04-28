@@ -22,7 +22,7 @@ module.exports = {
             if (shouldExit) {
                 return msg.channel.createMessage("You've already created a status channel in this guild.");
             }
-            await msg.member.guild.createChannel(await fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => body.status), 2).then(c => {
+            await msg.member.guild.createChannel(await fetch("https://api.monotrix.xyz/v1/jba/status").then(res => res.json()).then(message => message), 2).then(c => {
                 c.editPermission(msg.member.guild.id, 1, "1048576");
                 db.push("statuschannels.ids", [msg.member.guild.id, c.id]);
             });
