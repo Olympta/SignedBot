@@ -9,13 +9,13 @@ module.exports = {
     async launch(msg, bot) {
         try {
             await bot.sendChannelTyping(msg.channel.id);
-            fetch("https://jailbreaks.app/status.php").then(res => res.json()).then(body => {
+            fetch("https://api.monotrix.xyz/v1/jba/status").then(res => res.json()).then(body => {
                 let content;
                 let eColor;
-                if (body.status == "Signed") {
+                if (body.message == "Signed") {
                     content = "Signed!";
                     eColor = 0x00b300;
-                } else if (body.status == "Revoked") {
+                } else if (body.message == "Revoked") {
                     content = "Revoked.";
                     eColor = 0xb30000;
                 } else if (!body) {

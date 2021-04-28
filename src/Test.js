@@ -10,7 +10,7 @@ async function makePrompt() {
             type: 'list',
             name: 'options',
             message: 'What would you like to do?',
-            choices: ['Ping Jailbreaks.app Status API', 'Exit'],
+            choices: ['Ping Jailbreaks.app Status API', 'Ping Mono\'s API', 'Exit'],
         },
     ]).then(async answers => {
         switch (answers.options) {
@@ -23,6 +23,12 @@ async function makePrompt() {
                 await fetch("https://jailbreaks.app/status.php");
                 const end = performance.now();
                 console.log(`${chalk.greenBright("==>")} Ping is ${end - start} ms.`);
+                break;
+            case "Ping Mono\'s API":
+                const sta = performance.now();
+                await fetch("https://api.monotrix.xyz/v1/jba/status");
+                const en = performance.now();
+                console.log(`${chalk.greenBright("==>")} Ping is ${en - sta} ms.`);
                 break;
         }
         await makePrompt();
